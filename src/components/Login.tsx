@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import axios from "axios";
+import { addUser, updateError } from "../store/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
-
+  const error: string = useSelector((state: any) => state.user.error);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const HandleLogin = async () => {
     try {
-      setError("");
       const response = await axios.post(
         "http://localhost:5000/auth/login",
         {
@@ -20,9 +23,10 @@ const Login: React.FC = () => {
           withCredentials: true,
         }
       );
-      console.log(response);
+      dispatch(addUser(response.data));
+      navigate("/");
     } catch (err: any) {
-      setError(err.response.data.message);
+      dispatch(updateError(err.response.data.message));
     }
   };
 
