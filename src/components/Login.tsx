@@ -112,6 +112,12 @@ const Login: React.FC = () => {
               Login
             </button>
           </div>
+          <div className="card-actions justify-center my-5">
+            <p className="flex-none">New User? </p>
+            <a className="link link-info" onClick={() => navigate("/signup")}>
+              Create an account
+            </a>
+          </div>
         </div>
       </div>
     </div>
