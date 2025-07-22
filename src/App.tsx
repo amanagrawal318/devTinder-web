@@ -5,7 +5,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import SignUp from "./components/Signup";
+import SignUp from "./components/SignUp";
 
 function App() {
   const router = createBrowserRouter([

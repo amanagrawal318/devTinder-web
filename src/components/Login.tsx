@@ -4,17 +4,20 @@ import axios from "axios";
 import { addUser, updateError } from "../store/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+import type { User } from "../store/types";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const error: string = useSelector((state: any) => state.user.error);
+  const user: User = useSelector((state: any) => state.user.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const HandleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/login",
+        BASE_URL + "/auth/login",
         {
           email,
           password,
@@ -29,6 +32,10 @@ const Login: React.FC = () => {
       dispatch(updateError(err.response.data.message));
     }
   };
+
+  if (user) {
+    navigate("/");
+  }
 
   return (
     <div className="flex justify-center my-18">

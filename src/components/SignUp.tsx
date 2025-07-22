@@ -2,6 +2,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+import type { User } from "../store/types";
+import { useSelector } from "react-redux";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -10,13 +13,14 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const user: User = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
     try {
       setError("");
       const res = await axios.post(
-        "http://localhost:5000/auth/signup",
+        BASE_URL + "/auth/signup",
         { firstName, lastName, email, password },
         { withCredentials: true }
       );
@@ -33,6 +37,9 @@ const SignUp = () => {
     }
   };
 
+  if (user) {
+    navigate("/");
+  }
   return (
     <div className="flex justify-center my-18">
       <div className="card bg-base-300 w-96 shadow-xl">
