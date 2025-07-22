@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { removeUser } from "../store/userSlice";
+import { clearFeedData } from "../store/feedSlice";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Header: React.FC = () => {
         { withCredentials: true }
       );
       dispatch(removeUser());
+      dispatch(clearFeedData());
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);

@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
-import HomePage from "./components/HomePage";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import SignUp from "./components/SignUp";
+import Feed from "./components/Feed";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,7 +15,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <HomePage />,
+          element: <Feed />,
         },
         {
           path: "profile",

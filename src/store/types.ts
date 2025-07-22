@@ -4,6 +4,7 @@ export type User = {
   lastName: "string";
   email: "string";
   age: number;
+  gender: "string";
   about: "string";
   profileUrl: "string";
   skills: Array<string>;
