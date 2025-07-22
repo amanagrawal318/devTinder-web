@@ -29,7 +29,9 @@ const Login: React.FC = () => {
       dispatch(addUser(response.data));
       navigate("/");
     } catch (err: any) {
-      dispatch(updateError(err.response.data.message));
+      dispatch(
+        updateError(err?.response?.data?.message || "something went wrong")
+      );
     }
   };
 

@@ -5,14 +5,18 @@ import Header from "./Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
+import type { User } from "../store/types";
 
 const Layout: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
- 
+  const user: User = useSelector((state: any) => state.user.data);
+
   const fetchUser = async () => {
+    if (user) return;
+
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
