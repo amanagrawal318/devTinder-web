@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import SignUp from "./components/SignUp";
 import Feed from "./components/Feed";
+import EditProfile from "./components/EditProfile";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,6 +21,10 @@ function App() {
         {
           path: "profile",
           element: <Profile />,
+        },
+        {
+          path: "update-profile",
+          element: <EditProfile />,
         },
         {
           path: "login",
