@@ -25,7 +25,7 @@ const Connections = () => {
 
   useEffect(() => {
     fetchConnections();
-  }, [connections, fetchConnections]);
+  }, [fetchConnections]);
 
   if (error) {
     return <div className="text-red-500 text-4xl text-center">{error}</div>;

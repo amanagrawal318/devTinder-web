@@ -1,8 +1,10 @@
 {
   "name": "devtinder-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "DevTinder Web Application made by Aman Agrawal",
+  "author": "Aman Agrawal",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
