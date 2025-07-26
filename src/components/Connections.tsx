@@ -24,11 +24,11 @@ const Connections = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!connections.length) fetchConnections();
+    fetchConnections();
   }, [connections, fetchConnections]);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-4xl text-center">{error}</div>;
   }
 
   return (

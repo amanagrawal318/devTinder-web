@@ -20,7 +20,9 @@ const EditProfile = () => {
     age: user?.age ?? 0,
     gender: user?.gender ?? "male",
     about: user?.about ?? "",
+    skills: user?.skills ?? [],
   }));
+  const [skillInput, setSkillInput] = useState("");
 
   const handleSaveProfile = async () => {
     try {
@@ -119,6 +121,59 @@ const EditProfile = () => {
                 setFieldValues({ ...fieldValues, about: e.target.value })
               }
             ></textarea>
+          </fieldset>
+          <fieldset>
+            <legend className="fieldset-legend">Skills</legend>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {(fieldValues.skills ?? []).map((skill: string, idx: number) => (
+                <span
+                  key={idx}
+                  className="badge badge-outline flex items-center gap-1"
+                >
+                  {skill}
+                  <button
+                    type="button"
+                    className="ml-1 text-xs text-red-500"
+                    onClick={() => {
+                      setFieldValues({
+                        ...fieldValues,
+                        skills: fieldValues.skills.filter(
+                          (_: string, i: number) => i !== idx
+                        ),
+                      });
+                    }}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+            <input
+              type="text"
+              className="input"
+              placeholder="Type a skill and press Enter"
+              value={skillInput || ""}
+              onChange={(e) => setSkillInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Enter" &&
+                  skillInput &&
+                  skillInput.trim() !== ""
+                ) {
+                  const newSkill = skillInput.trim();
+                  if (!fieldValues.skills?.includes(newSkill)) {
+                    setFieldValues({
+                      ...fieldValues,
+                      skills: [...(fieldValues.skills ?? []), newSkill],
+                    });
+                    setSkillInput("");
+                  } else {
+                    setSkillInput("");
+                  }
+                  e.preventDefault();
+                }
+              }}
+            />
           </fieldset>
 
           {error && <p className="text-red-500">{error}</p>}

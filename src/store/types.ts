@@ -12,3 +12,14 @@ export type User = {
   updatedAt: Date;
   __v: number;
 };
+export type RequestStatus = "interested" | "ignored" | "accepted" | "rejected";
+
+export interface Request {
+  _id: string;
+  fromUserId: User;
+  toUserId: string;
+  status: RequestStatus;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

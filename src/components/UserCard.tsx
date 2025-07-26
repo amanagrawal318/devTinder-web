@@ -1,11 +1,42 @@
 import React from "react";
 import type { User } from "../store/types";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { removeUserFromFeed } from "../store/feedSlice";
+
 const UserCard: React.FC<{ user: User }> = ({ user }) => {
-  const { firstName, lastName, profileUrl, age, gender, about, skills } = user;
+  const dispatch = useDispatch();
+  const { _id, firstName, lastName, profileUrl, age, gender, about, skills } =
+    user;
+
+  const handleSendRequest = async (
+    status: "interested" | "ignored",
+    userId: string
+  ) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/request/send/${status}/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        dispatch(removeUserFromFeed(userId));
+      }
+      console.log(`Request sent successfully:`, res.data);
+    } catch (error) {
+      console.error(`Error sending request: ${error}`);
+    }
+  };
+
   return (
     <div className="card bg-base-200 w-96 shadow-sm p-3">
-      <figure>
-        <img src={profileUrl} alt="profile image" />
+      <figure className="flex justify-center items-center h-4/5 w-full overflow-hidden">
+        <img
+          src={profileUrl}
+          alt="profile image"
+          className="object-cover h-full w-full rounded-lg"
+        />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -21,8 +52,18 @@ const UserCard: React.FC<{ user: User }> = ({ user }) => {
         )}
         <p>{about}</p>
         <div className="card-actions justify-center">
-          <button className="btn btn-secondary">Ignore</button>
-          <button className="btn btn-primary">Interested</button>
+          <button
+            className="btn btn-primary px-6 py-2 rounded-lg text-white font-semibold shadow"
+            onClick={() => handleSendRequest("interested", _id)}
+          >
+            Interested
+          </button>
+          <button
+            className="btn btn-soft btn-ghost px-6 py-2 rounded-lg text-white font-semibold shadow"
+            onClick={() => handleSendRequest("ignored", _id)}
+          >
+            Ignore
+          </button>
         </div>
       </div>
     </div>

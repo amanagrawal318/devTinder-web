@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import type { User } from "../store/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../store/userSlice";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -12,9 +13,9 @@ const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
   const user: User = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSignUp = async () => {
     try {
@@ -25,29 +26,19 @@ const SignUp = () => {
         { withCredentials: true }
       );
       if (res?.status === 200) {
-        setSuccessMessage(
-          "User Regiester Successfully. Redirectig to Login..."
-        );
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
+        dispatch(addUser(res.data));
+        navigate("/profile");
       }
     } catch (error: any) {
       setError(error.response.data.message);
     }
   };
 
-  if (user) {
-    navigate("/");
-  }
   return (
     <div className="flex justify-center my-18">
       <div className="card bg-base-300 w-96 shadow-xl">
         <div className="card-body px-6 py-2">
           <h2 className="card-title justify-center text-xl">SignUp</h2>
-          {successMessage && (
-            <h3 className="text-green-500">{successMessage}</h3>
-          )}
           <fieldset className="fieldset">
             <legend className="fieldset-legend text-base">FirstName</legend>
             <label className="input validator">
@@ -195,7 +186,7 @@ const SignUp = () => {
               lowercase letter, one uppercase letter and one special character
             </p>
           </fieldset>
-          {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500 text-xl">{error}</p>}
           <div className="card-actions justify-center my-5 mb-2">
             <button className="btn btn-primary" onClick={handleSignUp}>
               SignUp

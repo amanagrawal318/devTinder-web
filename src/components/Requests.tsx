@@ -42,6 +42,7 @@ const Requests = () => {
       console.error(`Failed to ${status} request:`, error);
     }
   };
+
   const fetchRequests = async () => {
     // Logic to fetch connection requests from the server or API
     try {
@@ -60,7 +61,7 @@ const Requests = () => {
   }, []);
 
   if (!requests || requests.length === 0) {
-    return <div>No connection requests available.</div>;
+    return <div className="text-center text-4xl my-8">No connection requests available.</div>;
   }
 
   return (
