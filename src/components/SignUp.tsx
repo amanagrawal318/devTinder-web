@@ -3,8 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import type { User } from "../store/types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
 
 const SignUp = () => {
@@ -13,7 +12,6 @@ const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const user: User = useSelector((state: any) => state.user.data);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

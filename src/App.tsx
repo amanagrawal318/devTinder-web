@@ -9,6 +9,7 @@ import Feed from "./components/Feed";
 import EditProfile from "./components/EditProfile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import UpdatePassword from "./components/UpdatePassword";
 
 function App() {
   const router = createBrowserRouter([
@@ -43,6 +44,10 @@ function App() {
         {
           path: "requests",
           element: <Requests />,
+        },
+        {
+          path: "update-password",
+          element: <UpdatePassword />,
         },
       ],
     },
