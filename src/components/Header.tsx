@@ -6,6 +6,7 @@ import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { removeUser } from "../store/userSlice";
 import { clearFeedData } from "../store/feedSlice";
+import { removeConnections } from "../store/connectionsSlice";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Header: React.FC = () => {
       );
       dispatch(removeUser());
       dispatch(clearFeedData());
+      dispatch(removeConnections());
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -60,7 +62,10 @@ const Header: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <button>Settings</button>
+                  <Link to={"/connections"}>Connections</Link>
+                </li>
+                <li>
+                  <Link to={"/requests"}>Requests</Link>
                 </li>
                 <li>
                   <button onClick={handleLogout}>Logout</button>

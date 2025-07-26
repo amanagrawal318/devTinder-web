@@ -7,6 +7,8 @@ import store from "./store/store";
 import SignUp from "./components/SignUp";
 import Feed from "./components/Feed";
 import EditProfile from "./components/EditProfile";
+import Connections from "./components/Connections";
+import Requests from "./components/Requests";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +35,14 @@ function App() {
         {
           path: "signup",
           element: <SignUp />,
+        },
+        {
+          path: "connections",
+          element: <Connections />,
+        },
+        {
+          path: "requests",
+          element: <Requests />,
         },
       ],
     },

@@ -37,7 +37,7 @@ const Layout: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="relative min-h-screen">
       <Header />
       <Outlet />
       <Footer />

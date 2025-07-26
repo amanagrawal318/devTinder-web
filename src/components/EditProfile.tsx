@@ -29,7 +29,6 @@ const EditProfile = () => {
         `${BASE_URL}/profile/edit`,
         fieldValues,
         {
-          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
