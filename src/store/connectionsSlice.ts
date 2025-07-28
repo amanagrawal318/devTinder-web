@@ -5,7 +5,7 @@ const connectionsSlice = createSlice({
   name: "connections",
   initialState: [] as User[],
   reducers: {
-    setConnections: (state, action: PayloadAction<User[]>) => {
+    setConnections: (_state, action: PayloadAction<User[]>) => {
       return action.payload;
     },
     addConnection: (state, action: PayloadAction<User>) => {
