@@ -3,9 +3,10 @@ import { useSelector } from "react-redux";
 import type { User } from "../store/types";
 import { useNavigate } from "react-router-dom";
 
-const ProfileInfo: React.FC<{
+export const ProfileInfo: React.FC<{
   user: User;
-}> = ({ user }) => {
+  showEditButton?: boolean;
+}> = ({ user, showEditButton = true }) => {
   const navigate = useNavigate();
 
   return (
@@ -44,16 +45,18 @@ const ProfileInfo: React.FC<{
             <p className="italic">About: {user.about}</p>
           </div>
         )}
-        <div className="card-actions justify-center">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              navigate("/update-profile");
-            }}
-          >
-            Edit Profile
-          </button>
-        </div>
+        {showEditButton && (
+          <div className="card-actions justify-center">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                navigate("/update-profile");
+              }}
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
       </div>
     </div>
 

@@ -10,6 +10,7 @@ import EditProfile from "./components/EditProfile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import UpdatePassword from "./components/UpdatePassword";
+import ViewProfile from "./components/ViewProfile";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
         {
           path: "profile",
           element: <Profile />,
+        },
+        {
+          path: "profile/:userId",
+          element: <ViewProfile />,
         },
         {
           path: "update-profile",

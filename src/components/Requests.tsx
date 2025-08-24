@@ -61,7 +61,11 @@ const Requests = () => {
   }, []);
 
   if (!requests || requests.length === 0) {
-    return <div className="text-center text-4xl my-8">No connection requests available.</div>;
+    return (
+      <div className="text-center text-4xl my-8">
+        No connection requests available.
+      </div>
+    );
   }
 
   return (
@@ -80,6 +84,9 @@ const Requests = () => {
               <img
                 src={fromUserId.profileUrl}
                 className="rounded-lg shadow-2xl h-full w-[170px] object-cover"
+                onClick={() => {
+                  window.open(`/profile/${fromUserId._id}`, "_blank");
+                }}
               />
               <div
                 className="flex flex-col gap-[20px] text-center"

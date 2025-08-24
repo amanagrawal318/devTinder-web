@@ -5,9 +5,11 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setConnections } from "../store/connectionsSlice";
 import type { RootState } from "../store/store";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const connections = useSelector((state: RootState) => state.connections);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -36,7 +38,7 @@ const Connections = () => {
       <h2 className="text-4xl font-bold text-center my-4">Connections</h2>
       <div className="flex justify-center flex-wrap gap-4">
         {connections.map((connection: any) => {
-          const { firstName, lastName, profileUrl, about } = connection;
+          const { _id, firstName, lastName, profileUrl, about } = connection;
           return (
             <div
               className="card bg-base-100 image-full w-96 shadow-xl rounded-xl"
@@ -55,7 +57,14 @@ const Connections = () => {
                 </h1>
                 <p>{about || "No about information available."}</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View profile</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      navigate(`/profile/${_id}`);
+                    }}
+                  >
+                    View profile
+                  </button>
                 </div>
               </div>
             </div>
