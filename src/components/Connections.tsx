@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setConnections } from "../store/connectionsSlice";
 import type { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,40 @@ const Connections = () => {
     }
   }, [dispatch]);
 
+  const fetchBlockUser = async (userId: string) => {
+    try {
+      // Replace 'blockedUserId' with the actual ID of the user to be blocked
+      const res = await axios.post(
+        `${BASE_URL}/profile/block-user/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        // Refresh the connections list after blocking a user
+        fetchConnections();
+      }
+    } catch (error) {
+      console.error("Failed to block user:", error);
+    }
+  };
+  const fetchUnBlockUser = async (userId: string) => {
+    try {
+      const res = await axios.delete(
+        `${BASE_URL}/profile/unblock-user/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.status === 200) {
+        // Refresh the connections list after un blocking a user
+        fetchConnections();
+      }
+    } catch (error) {
+      console.error("Failed to unblock user:", error);
+    }
+  };
+
   useEffect(() => {
     fetchConnections();
   }, [fetchConnections]);
@@ -38,13 +74,23 @@ const Connections = () => {
       <h2 className="text-4xl font-bold text-center my-4">Connections</h2>
       <div className="flex justify-center flex-wrap gap-4">
         {connections.map((connection: any) => {
-          const { _id, firstName, lastName, profileUrl, about } = connection;
+          const { _id, firstName, lastName, profileUrl, about, isBlocked } =
+            connection;
           return (
             <div
-              className="card bg-base-100 image-full w-96 shadow-xl rounded-xl"
+              className={
+                "card bg-base-100 image-full w-96 shadow-xl rounded-xl"
+              }
               key={connection._id}
             >
-              <figure className="h-80 flex justify-center items-center">
+              <figure
+                className={
+                  "h-80 flex justify-center items-center" +
+                  (isBlocked
+                    ? "bg-[#e0e0e0] opacity-[0.5] pointer-events-none"
+                    : "")
+                }
+              >
                 <img
                   src={profileUrl}
                   alt="profile image"
@@ -52,13 +98,45 @@ const Connections = () => {
                 />
               </figure>
               <div className="card-body">
-                <h1 className="card-title text-2xl">
-                  {firstName} {lastName}
-                </h1>
+                <div className="card-actions flex justify-between items-center">
+                  <h1 className="card-title text-2xl">
+                    {firstName} {lastName}
+                  </h1>
+                  <div className="dropdown dropdown-bottom dropdown-end">
+                    <div tabIndex={0} role="button">
+                      <FontAwesomeIcon
+                        icon={faEllipsisVertical}
+                        className="text-2xl"
+                      />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="menu menu-sm dropdown-content bg-base-200 rounded-box z-10 mt-3 w-40 p-2 shadow"
+                    >
+                      {isBlocked === undefined && (
+                        <li>
+                          <button onClick={() => fetchBlockUser(_id)}>
+                            Block
+                          </button>
+                        </li>
+                      )}
+                      {isBlocked === true && (
+                        <li>
+                          <button onClick={() => fetchUnBlockUser(_id)}>
+                            Unblock
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
                 <p>{about || "No about information available."}</p>
-                <div className="card-actions justify-end">
+                <div className={"card-actions justify-end"}>
                   <button
-                    className="btn btn-primary"
+                    className={
+                      "btn btn-primary" +
+                      (isBlocked ? " opacity-[0.5] pointer-events-none" : "")
+                    }
                     onClick={() => {
                       navigate(`/profile/${_id}`);
                     }}

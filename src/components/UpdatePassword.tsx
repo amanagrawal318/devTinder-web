@@ -16,7 +16,6 @@ const UpdatePassword = () => {
         { password: newPassword },
         { withCredentials: true }
       );
-      console.log("Password updated successfully:", response.data);
       if (response.status === 200) {
         setShowToast(true);
         setTimeout(() => {
