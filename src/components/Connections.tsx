@@ -130,7 +130,14 @@ const Connections = () => {
                     </ul>
                   </div>
                 </div>
-                <p>{about || "No about information available."}</p>
+                <p >{about || "No about information available."}</p>
+                {isBlocked && (
+                  <div className=" w-full h-full flex justify-center items-center">
+                    <span className="text-white text-2xl font-bold">
+                      Blocked
+                    </span>
+                  </div>
+                )}
                 <div className={"card-actions justify-end"}>
                   <button
                     className={

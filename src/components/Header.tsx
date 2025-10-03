@@ -31,6 +31,19 @@ const Header: React.FC = () => {
     }
   }, [dispatch, navigate]);
 
+  const handleDeleteAccount = async () => {
+    try {
+      const res = await axios.delete(`${BASE_URL}/profile/delete`, {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        handleLogout();
+      }
+    } catch (error) {
+      console.error("Delete account failed:", error);
+    }
+  };
+
   return (
     <nav className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
@@ -71,6 +84,22 @@ const Header: React.FC = () => {
                   <Link to={"/update-password"}>Update Password</Link>
                 </li>
                 <li>
+                  <Link
+                    to={"#"}
+                    className="btn flex justify-start"
+                    onClick={() => {
+                      const modal = document.getElementById(
+                        "my_modal_5"
+                      ) as HTMLDialogElement | null;
+                      if (modal) {
+                        modal.showModal();
+                      }
+                    }}
+                  >
+                    Delete account
+                  </Link>
+                </li>
+                <li>
                   <button onClick={handleLogout}>Logout</button>
                 </li>
               </ul>
@@ -78,6 +107,25 @@ const Header: React.FC = () => {
           </>
         )}
       </div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn" onClick={handleDeleteAccount}>
+                confirm
+              </button>
+              <button className="btn btn-ghost">cancel</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </nav>
   );
 };
