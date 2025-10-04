@@ -10,13 +10,13 @@ import { addUser } from "../store/userSlice";
 const EditProfile = () => {
   const user = useSelector((state: RootState) => state.user.data);
   const [showToast, setShowToast] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState<string | null>(null);
   const [fieldValues, setFieldValues] = useState(() => ({
     firstName: user?.firstName ?? "",
     lastName: user?.lastName ?? "",
-    profileUrl: user?.profileUrl ?? "",
     age: user?.age ?? 0,
     gender: user?.gender ?? "male",
     about: user?.about ?? "",
@@ -27,6 +27,12 @@ const EditProfile = () => {
   const handleSaveProfile = async () => {
     try {
       setError(null);
+      if (file) {
+        const formData = new FormData();
+        formData.append("ProfileImage", file);
+        await handleUpload(formData);
+      }
+
       const response = await axios.patch(
         `${BASE_URL}/profile/edit`,
         fieldValues,
@@ -45,6 +51,31 @@ const EditProfile = () => {
       }
     } catch (err: any) {
       setError(err?.response?.data ?? "Failed to update profile");
+    }
+  };
+
+  const handleUpload = async (formData: FormData) => {
+    const res = await axios.post(
+      `${BASE_URL}/profile/upload-profile-image`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      }
+    );
+    return res;
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const uploadedFile = e.target.files[0];
+      if (uploadedFile && uploadedFile.size > 1024 * 1024) {
+        alert("File size should be less than 1MB");
+        return;
+      }
+      setFile(uploadedFile);
+    } else {
+      setFile(null);
     }
   };
 
@@ -76,15 +107,14 @@ const EditProfile = () => {
             />
           </fieldset>
           <fieldset className="fieldset">
-            <legend className="fieldset-legend">Profile Url</legend>
+            <legend className="fieldset-legend">Upload Profile Image</legend>
             <input
-              type="text"
-              className="input"
-              value={fieldValues.profileUrl}
-              onChange={(e) =>
-                setFieldValues({ ...fieldValues, profileUrl: e.target.value })
-              }
+              type="file"
+              className="file-input"
+              onChange={handleFileChange}
+              accept="image/*"
             />
+            <label className="label">Max size 1MB</label>
           </fieldset>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Age</legend>
@@ -103,7 +133,7 @@ const EditProfile = () => {
               className="select"
               value={fieldValues.gender}
               onChange={(e) =>
-                setFieldValues({ ...fieldValues, gender: e.target.value })
+                setFieldValues({ ...fieldValues, gender: e.target.value as "male" | "female" | "other" })
               }
             >
               <option value="male">male</option>
