@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../store/requestSlice";
 import type { RootState } from "../store/store";
@@ -21,7 +21,7 @@ const Requests = () => {
     // Logic to handle accept or reject actions for connection requests
 
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         `${BASE_URL}/request/review/${status}/${requestId}`,
         {},
         { withCredentials: true }
@@ -46,7 +46,7 @@ const Requests = () => {
   const fetchRequests = async () => {
     // Logic to fetch connection requests from the server or API
     try {
-      const res = await axios.get(`${BASE_URL}/user/requests/received`, {
+      const res = await axiosInstance.get(`${BASE_URL}/user/requests/received`, {
         withCredentials: true,
       });
       console.log(res.data.data);

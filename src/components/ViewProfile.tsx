@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -16,15 +16,18 @@ const ViewProfile = () => {
 
   const fetchViewUser = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/profile/view/${userId}`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get(
+        `${BASE_URL}/profile/view/${userId}`,
+        {
+          withCredentials: true,
+        }
+      );
       setUser(response.data.user);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     if (
       userId &&
@@ -34,7 +37,6 @@ const ViewProfile = () => {
       fetchViewUser();
     }
   }, [userId, loggedInUser]);
-
 
   return (
     <div className="min-h-screen bg-base-200 flex flex-col items-center">

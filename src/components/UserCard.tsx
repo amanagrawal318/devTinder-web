@@ -1,6 +1,6 @@
 import React from "react";
 import type { User } from "../store/types";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../store/feedSlice";
@@ -15,7 +15,7 @@ const UserCard: React.FC<{ user: User }> = ({ user }) => {
     userId: string
   ) => {
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         `${BASE_URL}/request/send/${status}/${userId}`,
         {},
         { withCredentials: true }

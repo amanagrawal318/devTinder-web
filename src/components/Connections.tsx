@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ const Connections = () => {
   const fetchConnections = React.useCallback(async () => {
     try {
       setError(null); // Reset error state before fetching
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      const res = await axiosInstance.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
       dispatch(setConnections(res?.data?.data ?? []));
@@ -30,7 +30,7 @@ const Connections = () => {
   const fetchBlockUser = async (userId: string) => {
     try {
       // Replace 'blockedUserId' with the actual ID of the user to be blocked
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         `${BASE_URL}/profile/block-user/${userId}`,
         {},
         { withCredentials: true }
@@ -46,7 +46,7 @@ const Connections = () => {
   };
   const fetchUnBlockUser = async (userId: string) => {
     try {
-      const res = await axios.delete(
+      const res = await axiosInstance.delete(
         `${BASE_URL}/profile/unblock-user/${userId}`,
         {
           withCredentials: true,
@@ -130,7 +130,7 @@ const Connections = () => {
                     </ul>
                   </div>
                 </div>
-                <p >{about || "No about information available."}</p>
+                <p>{about || "No about information available."}</p>
                 {isBlocked && (
                   <div className=" w-full h-full flex justify-center items-center">
                     <span className="text-white text-2xl font-bold">

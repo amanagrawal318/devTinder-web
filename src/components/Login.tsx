@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { addUser, updateError } from "../store/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const HandleLogin = async () => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         BASE_URL + "/auth/login",
         {
           email,

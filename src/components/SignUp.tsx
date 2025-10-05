@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -18,7 +18,7 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       setError("");
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         BASE_URL + "/auth/signup",
         { firstName, lastName, email, password },
         { withCredentials: true }

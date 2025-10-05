@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeedData } from "../store/feedSlice";
 import type { RootState } from "../store/store";
@@ -14,7 +14,7 @@ const Feed: React.FC = () => {
   const getFeedData = async () => {
     // Fetch feed data from the server or API
     try {
-      const res = await axios.get(BASE_URL + "/user/feed", {
+      const res = await axiosInstance.get(BASE_URL + "/user/feed", {
         withCredentials: true,
       });
       dispatch(addFeedData(res.data));

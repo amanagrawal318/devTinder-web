@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { User } from "../store/types";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { removeUser } from "../store/userSlice";
 import { clearFeedData } from "../store/feedSlice";
 import { removeConnections } from "../store/connectionsSlice";
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
 
   const handleLogout = useCallback(async () => {
     try {
-      await axios.post(
+      await axiosInstance.post(
         `${BASE_URL}/auth/logout`,
         {},
         { withCredentials: true }
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/profile/delete`, {
+      const res = await axiosInstance.delete(`${BASE_URL}/profile/delete`, {
         withCredentials: true,
       });
       if (res.status === 200) {

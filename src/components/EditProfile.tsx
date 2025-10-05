@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +33,7 @@ const EditProfile = () => {
         await handleUpload(formData);
       }
 
-      const response = await axios.patch(
+      const response = await axiosInstance.patch(
         `${BASE_URL}/profile/edit`,
         fieldValues,
         {
@@ -55,7 +55,7 @@ const EditProfile = () => {
   };
 
   const handleUpload = async (formData: FormData) => {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       `${BASE_URL}/profile/upload-profile-image`,
       formData,
       {

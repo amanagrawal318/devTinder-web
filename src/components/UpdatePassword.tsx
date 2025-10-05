@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import React from "react";
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const UpdatePassword = () => {
   const navigate = useNavigate();
   const HandleUpdatePassword = async () => {
     try {
-      const response = await axios.patch(
+      const response = await axiosInstance.patch(
         `${BASE_URL}/profile/password`,
         { password: newPassword },
         { withCredentials: true }
