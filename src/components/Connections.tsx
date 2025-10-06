@@ -69,6 +69,14 @@ const Connections = () => {
     return <div className="text-red-500 text-4xl text-center">{error}</div>;
   }
 
+  const aboutSection = (about: string): string => {
+    const updatedAbout = about?.split(" ");
+    if (updatedAbout.length > 10) {
+      return updatedAbout.slice(0, 10).join(" ") + " .....";
+    }
+    return about;
+  };
+
   return (
     <div className="mx-18">
       <h2 className="text-4xl font-bold text-center my-4">Connections</h2>
@@ -130,7 +138,7 @@ const Connections = () => {
                     </ul>
                   </div>
                 </div>
-                <p>{about || "No about information available."}</p>
+                <p>{aboutSection(about) || "No about information available."}</p>
                 {isBlocked && (
                   <div className=" w-full h-full flex justify-center items-center">
                     <span className="text-white text-2xl font-bold">
