@@ -4,11 +4,22 @@ import axiosInstance from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../store/feedSlice";
+import { getTimeDifference } from "../utils/status";
 
 const UserCard: React.FC<{ user: User }> = ({ user }) => {
   const dispatch = useDispatch();
-  const { _id, firstName, lastName, profileUrl, age, gender, about, skills } =
-    user;
+  const {
+    _id,
+    firstName,
+    lastName,
+    profileUrl,
+    age,
+    gender,
+    about,
+    skills,
+    lastActiveAt,
+  } = user;
+  console.log("aman", getTimeDifference(lastActiveAt));
 
   const handleSendRequest = async (
     status: "interested" | "ignored",
@@ -42,6 +53,11 @@ const UserCard: React.FC<{ user: User }> = ({ user }) => {
         <h2 className="card-title">
           {firstName.toUpperCase() + " " + lastName.toUpperCase()}
         </h2>
+        {lastActiveAt && (
+          <p className="text-sm text-gray-500">
+            {getTimeDifference(lastActiveAt)}
+          </p>
+        )}
         {age && gender && (
           <p>
             {age} years old, {gender}

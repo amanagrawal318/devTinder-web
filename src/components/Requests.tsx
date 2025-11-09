@@ -4,6 +4,7 @@ import axiosInstance from "../utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../store/requestSlice";
 import type { RootState } from "../store/store";
+import { getTimeDifference } from "../utils/status";
 
 const Requests = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,12 @@ const Requests = () => {
   const fetchRequests = async () => {
     // Logic to fetch connection requests from the server or API
     try {
-      const res = await axiosInstance.get(`${BASE_URL}/user/requests/received`, {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get(
+        `${BASE_URL}/user/requests/received`,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(res.data.data);
       dispatch(addRequest(res.data.data));
     } catch (error) {
@@ -95,6 +99,11 @@ const Requests = () => {
                 <h2 className="text-3xl font-bold">
                   {fromUserId.firstName} {fromUserId.lastName}
                 </h2>
+                {fromUserId.lastActiveAt && (
+                  <p className="text-sm text-gray-500">
+                    {getTimeDifference(fromUserId.lastActiveAt)}
+                  </p>
+                )}
                 <p>{fromUserId.about || "No description provided"}</p>
                 <div className="flex gap-4 mt-4 justify-center">
                   <button

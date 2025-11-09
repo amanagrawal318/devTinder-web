@@ -8,6 +8,7 @@ export type User = {
   about: string;
   profileUrl: string;
   skills: Array<string>;
+  lastActiveAt: Date;
   createdAt: Date;
   updatedAt: Date;
   __v: number;
