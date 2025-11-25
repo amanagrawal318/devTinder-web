@@ -9,6 +9,8 @@ export type User = {
   profileUrl: string;
   skills: Array<string>;
   lastActiveAt: Date;
+  isPremium: boolean;
+  planType?: "SILVER" | "GOLD";
   createdAt: Date;
   updatedAt: Date;
   __v: number;

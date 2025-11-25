@@ -51,7 +51,14 @@ const Header: React.FC = () => {
           DevTinder
         </Link>
       </div>
-      <div className="flex gap-2 mx-5 items-center">
+      <div className="flex gap-5 mx-5 items-center">
+        {loggedInUser && loggedInUser.isPremium === false && (
+          <button className="btn btn-warning rounded-3xl spa">
+            <Link to="/buy-premium" className="text-lg">
+              Buy Premium
+            </Link>
+          </button>
+        )}
         {loggedInUser && (
           <>
             <span className="my-auto">Welcome, {loggedInUser.firstName}</span>

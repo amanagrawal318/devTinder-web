@@ -11,6 +11,8 @@ import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import UpdatePassword from "./components/UpdatePassword";
 import ViewProfile from "./components/ViewProfile";
+import Premium from "./components/Premium";
+import PaymentStatus from "./components/PaymentStatus";
 
 function App() {
   const router = createBrowserRouter([
@@ -53,6 +55,14 @@ function App() {
         {
           path: "update-password",
           element: <UpdatePassword />,
+        },
+        {
+          path: "buy-premium",
+          element: <Premium />,
+        },
+        {
+          path: "payment-status",
+          element: <PaymentStatus />,
         },
       ],
     },

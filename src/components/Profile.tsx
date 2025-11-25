@@ -22,6 +22,9 @@ export const ProfileInfo: React.FC<{
         <h2 className="card-title text-3xl font-bold">
           {user.firstName} {user.lastName}
         </h2>
+        {user.isPremium && (
+          <span className="badge badge-md badge-warning">{user.planType}</span>
+        )}
         <p className="text-gray-500 text-xl">{user.email}</p>
         {user.age && (
           <p>
