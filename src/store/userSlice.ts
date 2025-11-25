@@ -21,11 +21,17 @@ const userSlice = createSlice({
     removeUser: (state) => {
       state.data = undefined;
     },
+    updateUserField: (state, action) => {
+      if (state.data) {
+        state.data = { ...state.data, ...action.payload };
+      }
+    },
     updateError: (state, action) => {
       state.error = action.payload;
     },
   },
 });
 
-export const { addUser, removeUser, updateError } = userSlice.actions;
+export const { addUser, removeUser, updateError, updateUserField } =
+  userSlice.actions;
 export default userSlice.reducer;

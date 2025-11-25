@@ -1,18 +1,25 @@
 import React, { useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
+import { updateUserField } from "../store/userSlice";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const PaymentStatus = () => {
   const [status, setStatus] = React.useState<string>("");
+  const dispatch = useDispatch();
 
   const fetchPaymentStatus = async () => {
     try {
+      setStatus("loading");
       const res = await axiosInstance.get(
         `${BASE_URL}/payment/membership/payment-status`,
         { withCredentials: true }
       );
       setStatus(res.data.status);
+      if (res.data.user) {
+        dispatch(updateUserField(res.data.user));
+      }
     } catch (error) {
       setStatus("canceled");
       console.log("err", error);
@@ -25,12 +32,13 @@ const PaymentStatus = () => {
   if (status === "succeeded") {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="card w-96 bg-[#34A85A] card-xl shadow-[0_20px_40px_#0D3DFF] mx-auto rounded-lg transform transition duration-300 hover:scale-100 hover:shadow-[0_20px_40px_#0D3DFF] hover:shadow-[#43916d]">
+        <div className="card w-96 bg-base-200 card-xl shadow-[0_20px_40px_#0D3DFF] mx-auto rounded-lg transform transition duration-300 hover:scale-100 hover:shadow-[0_20px_40px_#0D3DFF] hover:shadow-[#43916d]">
           <div className="card-body">
-            <h2 className="card-title">Payment Successful</h2>
+            <h2 className="card-title">Payment Successful 🎉</h2>
             <p>
               Thankyou for your purchase! Your payment was processed
-              successfully.
+              successfully. You can now enjoy the benefits of your premium
+              subscription.
             </p>
           </div>
         </div>
